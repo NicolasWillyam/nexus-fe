@@ -164,7 +164,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-6 p-4 lg:p-6">
-              {/* HEADER TỔNG QUAN */}
+              {" "}
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-5">
                 <div>
                   <h1 className="text-3xl font-extrabold tracking-tight">
@@ -212,7 +212,6 @@ export default function Page() {
                   </Card>
                 </div>
               </div>
-
               {/* KHỐI KPI CARDS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card className="shadow-sm">
@@ -313,10 +312,8 @@ export default function Page() {
                   </CardContent>
                 </Card>
               </div>
-
               {/* BẢO LƯU CHART TỪ CODE CŨ */}
               <ChartAreaInteractive />
-
               {/* BẢNG DỮ LIỆU BẢN MỚI */}
               <Card className="shadow-sm">
                 <CardHeader className="pb-4">
