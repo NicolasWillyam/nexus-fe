@@ -21,6 +21,10 @@ import {
 } from "@/components/ui/table";
 import { BarChart3, RefreshCw, LineChart as LineChartIcon } from "lucide-react";
 import {
+  RiskReturnChart,
+  type RiskReturnPoint,
+} from "@/components/RiskReturnChart";
+import {
   ResponsiveContainer,
   LineChart,
   Line,
@@ -148,6 +152,34 @@ export default function StockAnalyticsPage() {
     }));
   }, [rawResponse]);
 
+  const riskReturnData = useMemo<RiskReturnPoint[]>(
+    () =>
+      stocksList.flatMap((item) => {
+        const totalReturn = item.performance?.total_return_1y;
+        const annualVolatility = item.risk_metrics?.annual_volatility;
+
+        if (
+          typeof totalReturn !== "number" ||
+          typeof annualVolatility !== "number" ||
+          !Number.isFinite(totalReturn) ||
+          !Number.isFinite(annualVolatility)
+        ) {
+          return [];
+        }
+
+        return [
+          {
+            symbol: item.symbol,
+            risk: annualVolatility * 100,
+            return: totalReturn * 100,
+            sharpeRatio: item.risk_metrics?.sharpe_ratio,
+            beta: item.risk_metrics?.beta,
+          },
+        ];
+      }),
+    [stocksList],
+  );
+
   return (
     <div className="container mx-auto p-6 space-y-8 min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* HEADER */}
@@ -273,6 +305,8 @@ export default function StockAnalyticsPage() {
           )}
         </CardContent>
       </Card>
+
+      <RiskReturnChart data={riskReturnData} />
 
       {/* 📋 BẢNG THỐNG KÊ CHI TIẾT & CHỈ SỐ KỸ THUẬT */}
       <Card className="shadow-sm">
