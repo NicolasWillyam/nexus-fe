@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import DataHealth from "@/components/DataHealth";
 import {
   Table,
   TableBody,
@@ -252,7 +253,9 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
       </div>
-
+<div className="mb-4">
+  <DataHealth />
+</div>
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
