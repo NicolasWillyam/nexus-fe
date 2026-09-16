@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import FactorChart from "@/components/FactorChart";
 import { apiClient } from "@/lib/api";
 import {
   Table,
@@ -66,11 +67,10 @@ export default function OverviewDashboard() {
 
   useEffect(() => {
     fetchStocks();
-    const interval = setInterval(fetchStocks, 30000); // Tự động làm mới mỗi 30s
+    const interval = setInterval(fetchStocks, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  // 📊 Tính toán các chỉ số thống kê (KPIs)
   const metrics = useMemo(() => {
     if (!stocks.length)
       return {
@@ -110,7 +110,6 @@ export default function OverviewDashboard() {
     };
   }, [stocks]);
 
-  // 🔍 Lọc danh sách theo Search & Tab trạng thái
   const filteredStocks = useMemo(() => {
     return stocks.filter((s) => {
       const matchesSearch =
@@ -148,9 +147,8 @@ export default function OverviewDashboard() {
         </Button>
       </div>
 
-      {/* 📊 KHỐI 1: KPI CARDS (THỐNG KÊ TỔNG QUAN) */}
+      {/* 📊 KHỐI 1: KPI CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Tổng số mã */}
         <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -166,7 +164,6 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
 
-        {/* Card 2: Trạng thái Thị trường (Tăng/Giảm) */}
         <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -194,7 +191,6 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
 
-        {/* Card 3: Top Tăng Trưởng */}
         <Card className="shadow-sm border-emerald-100 bg-emerald-50/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-emerald-800">
@@ -223,7 +219,6 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
 
-        {/* Card 4: Top Giảm Giá */}
         <Card className="shadow-sm border-rose-100 bg-rose-50/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-rose-800">
@@ -253,6 +248,11 @@ export default function OverviewDashboard() {
         </Card>
       </div>
 
+      {/* 📈 KHỐI FACTOR CHART */}
+      <div className="w-full">
+        <FactorChart portfolioId="1" />
+      </div>
+
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
@@ -266,9 +266,7 @@ export default function OverviewDashboard() {
               </CardDescription>
             </div>
 
-            {/* Filter Buttons & Search */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-              {/* Tab Lọc Tăng/Giảm */}
               <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-medium">
                 <button
                   onClick={() => setFilterType("all")}
@@ -302,7 +300,6 @@ export default function OverviewDashboard() {
                 </button>
               </div>
 
-              {/* Ô Search */}
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
