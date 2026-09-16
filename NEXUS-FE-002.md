@@ -103,10 +103,15 @@ Ví dụ:
 
 # 8. Code chính
 
-components/EmptyState.tsx   
-components/ErrorState.tsx   
-app/page.tsx 
-public/Screenshot
+NEXUS-FE-002.md
+app/page.tsx
+components/EmptyState.tsx
+components/ErrorState.tsx
+public/Screenshot/Test_1.png
+public/Screenshot/Test_2.png
+public/Screenshot/Test_3.png
+public/Screenshot/Test_4.png
+public/Screenshot/Test_5.png
 
 ---
 
@@ -160,6 +165,6 @@ feature/NEXUS-FE-002-empty-error-state
 
 Commit:
 
-feat: add Empty and Error States
+feat: add empty and error states
 
 Merge Request: [link MR]
