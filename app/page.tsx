@@ -20,6 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { StockFilter } from "@/components/StockFilter";
 import {
   TrendingUp,
   TrendingDown,
@@ -47,10 +48,17 @@ interface Stock {
 export default function OverviewDashboard() {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [search, setSearch] = useState("");
+  const [selectedSector, setSelectedSector] = useState<string>("all");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
   );
   const [loading, setLoading] = useState(true);
+
+  const dynamicSectors = useMemo(() => {
+    return Array.from(
+      new Set(stocks.map((s) => s.industry).filter(Boolean))
+    ).sort();
+  }, [stocks]);
 
   const fetchStocks = async () => {
     setLoading(true);
@@ -110,19 +118,25 @@ export default function OverviewDashboard() {
     };
   }, [stocks]);
 
-  // 🔍 Lọc danh sách theo Search & Tab trạng thái
+  // 🔍 Lọc danh sách theo Search, Tab trạng thái & Sector
   const filteredStocks = useMemo(() => {
     return stocks.filter((s) => {
       const matchesSearch =
         s.symbol.toLowerCase().includes(search.toLowerCase()) ||
         s.company_name.toLowerCase().includes(search.toLowerCase());
 
+      const matchesSector =
+        selectedSector === "all" ||
+        (s.industry &&
+          s.industry.trim().toLowerCase() === selectedSector.trim().toLowerCase());
+
       if (filterType === "gainers")
-        return matchesSearch && s.change_percent > 0;
-      if (filterType === "losers") return matchesSearch && s.change_percent < 0;
-      return matchesSearch;
+        return matchesSearch && matchesSector && s.change_percent > 0;
+      if (filterType === "losers")
+        return matchesSearch && matchesSector && s.change_percent < 0;
+      return matchesSearch && matchesSector;
     });
-  }, [stocks, search, filterType]);
+  }, [stocks, search, filterType, selectedSector]);
 
   return (
     <div className="container mx-auto p-6 space-y-8 min-h-screen bg-slate-50/50 dark:bg-slate-950">
@@ -267,7 +281,7 @@ export default function OverviewDashboard() {
             </div>
 
             {/* Filter Buttons & Search */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 w-full lg:w-auto">
               {/* Tab Lọc Tăng/Giảm */}
               <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-medium">
                 <button
@@ -302,6 +316,13 @@ export default function OverviewDashboard() {
                 </button>
               </div>
 
+              {/* Bộ lọc Sector */}
+              <StockFilter
+                selectedSector={selectedSector}
+                onSectorChange={setSelectedSector}
+                availableSectors={dynamicSectors}
+              />
+
               {/* Ô Search */}
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -326,6 +347,7 @@ export default function OverviewDashboard() {
                   </TableHead>
                   <TableHead className="font-bold">Tên Công Ty</TableHead>
                   <TableHead className="font-bold">Sàn Giao Dịch</TableHead>
+                  <TableHead className="font-bold">Nhóm Ngành</TableHead>
                   <TableHead className="text-right font-bold">
                     Giá Hiện Tại
                   </TableHead>
@@ -341,7 +363,7 @@ export default function OverviewDashboard() {
                 {filteredStocks.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={6}
+                      colSpan={7}
                       className="text-center py-12 text-muted-foreground"
                     >
                       {loading
@@ -371,6 +393,14 @@ export default function OverviewDashboard() {
                             className="font-normal text-xs"
                           >
                             {stock.market || "N/A"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className="font-normal text-xs bg-slate-50 dark:bg-slate-900"
+                          >
+                            {stock.industry || "N/A"}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right font-bold text-slate-900 dark:text-white">
