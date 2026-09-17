@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import PortfolioSummary from "@/components/PortfolioSummary";
 import {
   Table,
   TableBody,
@@ -252,6 +253,16 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <PortfolioSummary
+  selectedSymbols={[
+    "AAPL",
+    "AMZN",
+    "GOOGL",
+    "MSFT",
+    "NVDA",
+  ]}
+/>
 
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
