@@ -14,7 +14,7 @@
 
 # 2. Chức năng này dùng để làm gì?
 
-Chức năng Empty/Error State được sử dụng để thông báo cho người dùng khi hệ thông không có dữ liệu trả về hoặc không thể tải dữ liệu.
+* Chức năng Empty/Error State được sử dụng để thông báo cho người dùng khi hệ thông không có dữ liệu trả về hoặc không thể tải dữ liệu.
     - Empty State: Không có dữ liệu người dùng cần để hiển thị.
     - Error State: Không thể tải dữ liệu do xảy ra lỗi trong quá trình gọi API.
 
@@ -58,12 +58,12 @@ API dùng để lấy toàn bộ danh sách cổ phiếu (symbol, tên công ty,
 
 # 5. Input
 
-Nhận dữ liệu thông qua Props:
+1. Nhận dữ liệu thông qua Props:
     - onRetry: Hàm gọi lại khi bấm nút (fetchStocks, setSearch).
     - message: Nội dung thông báo ("No data available.", "Cannot load data.").
     - label: Tên nút ("Try again", "Retry").
 
-Điều kiện hiển thị:
+2. Điều kiện hiển thị:
     - error === true -> ErrorState
     - filteredStocks.length === 0 (Không lỗi, không loading) -> EmptyState
 
@@ -143,11 +143,10 @@ public/Screenshot/Test_5.png
 
 # 11. Khó khăn gặp phải
 
-Ví dụ:
-
 - Chưa nắm chắc cách dùng thư viện React + TypeScript.
 - Chưa nắm chắc cách xử lý UI sau khi tạo component EmptyState + ErrorState.
-- chưa biết sử dụng postgreSQL để import dữ liệu.
+- Chưa biết sử dụng postgreSQL để import dữ liệu.
+- Push nhầm tài khoản github
 ---
 
 # 12. Tôi đã học được gì?
@@ -167,4 +166,4 @@ Commit:
 
 feat: add empty and error states
 
-Merge Request: [link MR]
+Merge Request: https://github.com/NicolasWillyam/nexus-fe/pull/8
