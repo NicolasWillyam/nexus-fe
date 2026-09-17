@@ -254,7 +254,7 @@ export default function OverviewDashboard() {
       </div>
       {/* 🏆 STOCK SCORE CARD */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StockScoreCard symbol="MSFT" />
+        <StockScoreCard symbol="AAPL" />
       </div>
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">

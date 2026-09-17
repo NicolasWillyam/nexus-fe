@@ -35,6 +35,10 @@ import {
   Flame,
   ArrowDownRight,
   ArrowUpRight,
+<<<<<<< HEAD
+=======
+  Clock,
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
 } from "lucide-react";
 
 interface Stock {
@@ -48,8 +52,21 @@ interface Stock {
   change_percent: number;
 }
 
+<<<<<<< HEAD
 export default function Page() {
   const [stocks, setStocks] = useState<Stock[]>([]);
+=======
+interface Health {
+  status: string;
+  latest_price_date: string;
+  total_records: number;
+}
+
+export default function Page() {
+  const [stocks, setStocks] = useState<Stock[]>([]);
+
+  const [health, setHeath] = useState<Health[]>([]);
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
@@ -68,6 +85,23 @@ export default function Page() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const getHealth = async () => {
+    setLoading(true);
+    try {
+      const reponse = await apiClient.get("data-pipeline/data-pipeline/health");
+      console.log(reponse.data);
+      setHeath(reponse.data);
+    } catch (error) {
+      // Show message modal
+      console.error("Lỗi khi tải api:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
   useEffect(() => {
     fetchStocks();
     const interval = setInterval(fetchStocks, 30000);
@@ -152,6 +186,7 @@ export default function Page() {
                     Hàng Đầu
                   </p>
                 </div>
+<<<<<<< HEAD
                 <Button
                   onClick={fetchStocks}
                   disabled={loading}
@@ -164,6 +199,44 @@ export default function Page() {
                   />
                   Làm mới dữ liệu
                 </Button>
+=======
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={getHealth}
+                    disabled={loading}
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 shadow-sm"
+                  >
+                    <RefreshCw
+                      className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+                    />
+                    Làm mới dữ liệu
+                  </Button>
+                  <Card className="rounded-md">
+                    <CardHeader className="w-full">
+                      <CardContent className="px-0">
+                        {health.status === "healthy" ? (
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            {health.total_records}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                            Error
+                          </div>
+                        )}
+
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />{" "}
+                          {health.latest_price_date}
+                        </div>
+                      </CardContent>
+                    </CardHeader>
+                  </Card>
+                </div>
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
               </div>
 
               {/* KHỐI KPI CARDS */}
