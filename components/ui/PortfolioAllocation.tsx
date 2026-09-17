@@ -6,7 +6,7 @@ import { DollarSign, PieChart, RefreshCw } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
-	Card,
+	Card, 
 	CardContent,
 	CardHeader,
 	CardTitle,
