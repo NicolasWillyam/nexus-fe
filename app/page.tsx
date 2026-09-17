@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import EmptyState from "@/components/EmptyState";
+import ErrorState from "@/components/ErrorState";
 import {
   Table,
   TableBody,
@@ -51,14 +53,16 @@ export default function OverviewDashboard() {
     "all",
   );
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const fetchStocks = async () => {
     setLoading(true);
+    setError(false);
     try {
       const response = await apiClient.get("/stocks");
       setStocks(response.data || []);
     } catch (error) {
-      console.error("Lỗi khi tải danh sách cổ phiếu:", error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -340,13 +344,18 @@ export default function OverviewDashboard() {
               <TableBody>
                 {filteredStocks.length === 0 ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      className="text-center py-12 text-muted-foreground"
-                    >
-                      {loading
-                        ? "Đang tải dữ liệu từ Server..."
-                        : "Không tìm thấy dữ liệu phù hợp."}
+                    <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
+                      {loading ? ("Đang tải dữ liệu từ Server...")
+                      : error ? (
+                        <ErrorState
+                          onRetry={fetchStocks}
+                          message="Cannot load data."
+                          label="Retry"/>) 
+                          : (<EmptyState
+                          onRetry={() => setSearch("")}
+                          message="No data available."
+                          label="Try again"/>)
+                        }
                     </TableCell>
                   </TableRow>
                 ) : (
