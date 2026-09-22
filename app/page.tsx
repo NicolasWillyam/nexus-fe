@@ -20,6 +20,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import LoadingState, {
+  SkeletonCards,
+  SkeletonTable,
+  LoadingSpinner,
+} from "@/components/LoadingState";
 import {
   TrendingUp,
   TrendingDown,
@@ -55,6 +60,8 @@ export default function OverviewDashboard() {
   const fetchStocks = async () => {
     setLoading(true);
     try {
+      // Thêm độ trễ 600ms để mô phỏng mạng thực tế và hiệu ứng Skeleton hiển thị rõ nét
+      await new Promise((resolve) => setTimeout(resolve, 600));
       const response = await apiClient.get("/stocks");
       setStocks(response.data || []);
     } catch (error) {
@@ -149,109 +156,113 @@ export default function OverviewDashboard() {
       </div>
 
       {/* 📊 KHỐI 1: KPI CARDS (THỐNG KÊ TỔNG QUAN) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Tổng số mã */}
-        <Card className="shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Tổng Số Mã Theo Dõi
-            </CardTitle>
-            <Activity className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.total} Mã</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Sàn NASDAQ & NYSE
-            </p>
-          </CardContent>
-        </Card>
+      {loading ? (
+        <SkeletonCards cards={4} />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: Tổng số mã */}
+          <Card className="shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Tổng Số Mã Theo Dõi
+              </CardTitle>
+              <Activity className="h-4 w-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{metrics.total} Mã</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Sàn NASDAQ & NYSE
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Card 2: Trạng thái Thị trường (Tăng/Giảm) */}
-        <Card className="shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Cân Bằng Thị Trường
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-emerald-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-3">
-              <span className="text-lg font-bold text-emerald-600 flex items-center gap-1">
-                <TrendingUp className="h-4 w-4" /> {metrics.gainers}
-              </span>
-              <span className="text-slate-300">|</span>
-              <span className="text-lg font-bold text-rose-600 flex items-center gap-1">
-                <TrendingDown className="h-4 w-4" /> {metrics.losers}
-              </span>
-              <span className="text-slate-300">|</span>
-              <span className="text-sm font-medium text-slate-500 flex items-center gap-0.5">
-                <Minus className="h-3 w-3" /> {metrics.unchanged}
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Mã Tăng / Mã Giảm / Đi Ngang
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Card 3: Top Tăng Trưởng */}
-        <Card className="shadow-sm border-emerald-100 bg-emerald-50/20">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-emerald-800">
-              Tăng Mạnh Nhất
-            </CardTitle>
-            <Flame className="h-4 w-4 text-emerald-600" />
-          </CardHeader>
-          <CardContent>
-            {metrics.topGainer ? (
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-base text-slate-900">
-                    {metrics.topGainer.symbol}
-                  </span>
-                  <Badge className="bg-emerald-600 text-white hover:bg-emerald-600">
-                    +{metrics.topGainer.change_percent?.toFixed(2)}%
-                  </Badge>
-                </div>
-                <p className="text-xs text-muted-foreground truncate mt-1">
-                  {metrics.topGainer.company_name}
-                </p>
+          {/* Card 2: Trạng thái Thị trường (Tăng/Giảm) */}
+          <Card className="shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Cân Bằng Thị Trường
+              </CardTitle>
+              <DollarSign className="h-4 w-4 text-emerald-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-bold text-emerald-600 flex items-center gap-1">
+                  <TrendingUp className="h-4 w-4" /> {metrics.gainers}
+                </span>
+                <span className="text-slate-300">|</span>
+                <span className="text-lg font-bold text-rose-600 flex items-center gap-1">
+                  <TrendingDown className="h-4 w-4" /> {metrics.losers}
+                </span>
+                <span className="text-slate-300">|</span>
+                <span className="text-sm font-medium text-slate-500 flex items-center gap-0.5">
+                  <Minus className="h-3 w-3" /> {metrics.unchanged}
+                </span>
               </div>
-            ) : (
-              <span className="text-sm text-muted-foreground">N/A</span>
-            )}
-          </CardContent>
-        </Card>
+              <p className="text-xs text-muted-foreground mt-1">
+                Mã Tăng / Mã Giảm / Đi Ngang
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Card 4: Top Giảm Giá */}
-        <Card className="shadow-sm border-rose-100 bg-rose-50/20">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-rose-800">
-              Giảm Mạnh Nhất
-            </CardTitle>
-            <ArrowDownRight className="h-4 w-4 text-rose-600" />
-          </CardHeader>
-          <CardContent>
-            {metrics.topLoser ? (
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-base text-slate-900">
-                    {metrics.topLoser.symbol}
-                  </span>
-                  <Badge className="bg-rose-600 text-white hover:bg-rose-600">
-                    {metrics.topLoser.change_percent?.toFixed(2)}%
-                  </Badge>
+          {/* Card 3: Top Tăng Trưởng */}
+          <Card className="shadow-sm border-emerald-100 bg-emerald-50/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-emerald-800">
+                Tăng Mạnh Nhất
+              </CardTitle>
+              <Flame className="h-4 w-4 text-emerald-600" />
+            </CardHeader>
+            <CardContent>
+              {metrics.topGainer ? (
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-base text-slate-900">
+                      {metrics.topGainer.symbol}
+                    </span>
+                    <Badge className="bg-emerald-600 text-white hover:bg-emerald-600">
+                      +{metrics.topGainer.change_percent?.toFixed(2)}%
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate mt-1">
+                    {metrics.topGainer.company_name}
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground truncate mt-1">
-                  {metrics.topLoser.company_name}
-                </p>
-              </div>
-            ) : (
-              <span className="text-sm text-muted-foreground">N/A</span>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              ) : (
+                <span className="text-sm text-muted-foreground">N/A</span>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Card 4: Top Giảm Giá */}
+          <Card className="shadow-sm border-rose-100 bg-rose-50/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-rose-800">
+                Giảm Mạnh Nhất
+              </CardTitle>
+              <ArrowDownRight className="h-4 w-4 text-rose-600" />
+            </CardHeader>
+            <CardContent>
+              {metrics.topLoser ? (
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-base text-slate-900">
+                      {metrics.topLoser.symbol}
+                    </span>
+                    <Badge className="bg-rose-600 text-white hover:bg-rose-600">
+                      {metrics.topLoser.change_percent?.toFixed(2)}%
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate mt-1">
+                    {metrics.topLoser.company_name}
+                  </p>
+                </div>
+              ) : (
+                <span className="text-sm text-muted-foreground">N/A</span>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
@@ -338,15 +349,27 @@ export default function OverviewDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredStocks.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="py-20 text-center">
+                      <LoadingState
+                        variant="spinner"
+                        text="Đang tải dữ liệu cổ phiếu từ Server..."
+                        size="md"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ) : filteredStocks.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={6}
                       className="text-center py-12 text-muted-foreground"
                     >
-                      {loading
-                        ? "Đang tải dữ liệu từ Server..."
-                        : "Không tìm thấy dữ liệu phù hợp."}
+                      {loading ? (
+                        <LoadingSpinner text="Đang tải dữ liệu từ Server..." size="sm" />
+                      ) : (
+                        "Không tìm thấy dữ liệu phù hợp."
+                      )}
                     </TableCell>
                   </TableRow>
                 ) : (
