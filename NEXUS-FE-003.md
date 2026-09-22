@@ -42,7 +42,7 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 5. Input
+# 4. Input
 
 | Prop | Kiểu | Mô tả |
 |---|---|---|
@@ -55,7 +55,7 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 6. Output
+# 5. Output
 
 - **Biểu đồ Pie/Donut** vẽ bằng `recharts`, mỗi mã cổ phiếu là 1 lát cắt màu riêng (lấy từ palette 8 màu cố định, xoay vòng nếu vượt quá 8 mã).
 - **Tooltip** khi hover: hiện mã, tên công ty, tỷ lệ %, và giá trị USD (nếu có).
@@ -65,19 +65,27 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 7. Cách tôi thực hiện
+# 6. Cách tôi thực hiện
 
-
+- Định nghĩa **model dữ liệu** (`PortfolioItem`, `StockData`) trước, tách biệt dữ liệu thô và dữ liệu hiển thị.
+- Viết 2 hàm xử lý dữ liệu thuần (pure function), tách khỏi component để dễ test độc lập:
+  +  `parsePortfolioText`: parse text nhập tay → mảng `PortfolioItem`.
+  + `aggregateFromStocks`: tự tính tỷ trọng % dựa trên giá cổ phiếu (`current_price`) khi người dùng chọn "Từ Website".
+- Dùng **3 chế độ nguồn dữ liệu** (`sourceMode`: `text` / `website` / `manual`) để component linh hoạt — người dùng gõ tay hoặc lấy tự động đều dùng chung 1 pipeline render.
+- Dùng `React.useMemo` cho toàn bộ dữ liệu suy ra (`parsedItems`, `activeItems`, `chartData`, `totalPercentage`, `totalValue`, `chartConfig`) để tránh tính toán lại không cần thiết mỗi lần render.
+- Ghép UI bằng **shadcn/ui** (`Card`, `Input`, `Badge`, `Button`) cho phần điều khiển, và `recharts` (`PieChart`, `Pie`, `Cell`, `Tooltip`) cho phần vẽ biểu đồ.
+- Custom `Tooltip content` bằng render-prop để kiểm soát hoàn toàn giao diện thay vì dùng tooltip mặc định của recharts.
 
 ---
 
-# 8. Code chính
+# 7. Code chính
 
-
+- `components\StatisticChart.tsx`
+- `page.tsx`
 
 ---
 
-# 9. Test
+# 8. Test
 
 | Case | Input | Kỳ vọng | Kết quả |
 |---|---|---|---|
@@ -91,12 +99,7 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 10. Screenshot
-
-
----
-
-# 11. Khó khăn gặp phải
+# 9. Khó khăn gặp phải
 
 - **Đồng bộ giữa 2 nguồn dữ liệu**: khi chuyển từ "Tùy chỉnh" sang "Từ Website" và ngược lại, phải đảm bảo `inputText` và `manualItems` không lệch nhau — giải quyết bằng cách format lại `aggregated` thành text và set ngược vào `inputText` trong `handleLoadFromWebsite`.
 - **Regex parser đa dạng cú pháp**: người dùng có thể gõ `AAPL 30%`, `AAPL: 30`, `AAPL=30.5` — phải viết regex đủ tổng quát mà không match nhầm dòng rác.
@@ -105,7 +108,7 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 12. Tôi đã học được gì?
+# 10. Tôi đã học được gì?
 
 - Cách dùng **`recharts`** (`PieChart`, `Cell`, custom `Tooltip` qua render-prop) để build biểu đồ tương tác trong React.
 - Kỹ thuật **tách pure function** (parser, aggregator) ra khỏi component để dễ test và tái sử dụng.
@@ -115,6 +118,15 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 ---
 
-# 13. Git
+# 11. Git
 
+Branch:
+
+feature/NEXUS-FE-003-portfolio-chart
+
+Commit:
+
+feat: add portfolio chart
+
+Merge Request: https://github.com/NicolasWillyam/nexus-fe/pull/16
 
