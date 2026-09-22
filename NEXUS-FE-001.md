@@ -1,6 +1,6 @@
 NEXUS-FE-001 – Loading State
 1. Thông tin
-Họ tên: Sầm Anh Quân (Frontend Developer)
+Họ tên: Sầm Anh Quân
 Nhóm: 5. Frontend & Visualization
 Task: SV17 — Loading State
 Ngày thực hiện: 22/09/2026
