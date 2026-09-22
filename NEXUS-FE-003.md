@@ -80,7 +80,7 @@ Vì bảng số liệu thô (mã + %) khó nhìn ra ngay tỷ trọng ai lớn a
 
 # 7. Code chính
 
-- `components\StatisticChart.tsx`
+- `components/StatisticChart/PortfolioChart.tsx`
 - `page.tsx`
 
 ---

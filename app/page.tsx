@@ -66,11 +66,10 @@ export default function OverviewDashboard() {
 
   useEffect(() => {
     fetchStocks();
-    const interval = setInterval(fetchStocks, 30000); // Tự động làm mới mỗi 30s
+    const interval = setInterval(fetchStocks, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  // 📊 Tính toán các chỉ số thống kê (KPIs)
   const metrics = useMemo(() => {
     if (!stocks.length)
       return {
@@ -110,7 +109,6 @@ export default function OverviewDashboard() {
     };
   }, [stocks]);
 
-  // 🔍 Lọc danh sách theo Search & Tab trạng thái
   const filteredStocks = useMemo(() => {
     return stocks.filter((s) => {
       const matchesSearch =
@@ -148,7 +146,7 @@ export default function OverviewDashboard() {
         </Button>
       </div>
 
-      {/* 📊 KHỐI 1: KPI CARDS (THỐNG KÊ TỔNG QUAN) */}
+      {/* KHỐI 1: KPI CARDS (THỐNG KÊ TỔNG QUAN) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Tổng số mã */}
         <Card className="shadow-sm">
@@ -253,7 +251,7 @@ export default function OverviewDashboard() {
         </Card>
       </div>
 
-      {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
+      {/* KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
