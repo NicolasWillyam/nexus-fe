@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import PortfolioAllocation from "@/components/ui/PortfolioAllocation";
 import {
   Table,
   TableBody,
@@ -253,6 +254,8 @@ export default function OverviewDashboard() {
         </Card>
       </div>
 
+      <PortfolioAllocation />
+      
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
