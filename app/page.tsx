@@ -32,6 +32,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
 } from "lucide-react";
+import StockSearch from "@/components/StockSearch";
 
 interface Stock {
   id: number;
@@ -127,6 +128,9 @@ export default function OverviewDashboard() {
   return (
     <div className="container mx-auto p-6 space-y-8 min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* 🟢 HEADER */}
+      <div>
+      <StockSearch stocks={stocks} />
+    </div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-5">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight">
@@ -416,6 +420,7 @@ export default function OverviewDashboard() {
                           </Badge>
                         </TableCell>
                       </TableRow>
+  
                     );
                   })
                 )}
@@ -426,4 +431,7 @@ export default function OverviewDashboard() {
       </Card>
     </div>
   );
+
+  
+  
 }

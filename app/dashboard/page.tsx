@@ -191,10 +191,10 @@ export default function Page() {
                   <Card className="rounded-md">
                     <CardHeader className="w-full">
                       <CardContent className="px-0">
-                        {health.status === "healthy" ? (
+                        {health[0]?.status === "healthy" ? (
                           <div className="flex items-center gap-1">
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            {health.total_records}
+                            {health[0]?.total_records}
                           </div>
                         ) : (
                           <div className="flex items-center gap-1">
@@ -205,7 +205,7 @@ export default function Page() {
 
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />{" "}
-                          {health.latest_price_date}
+                          {health[0]?.latest_price_date}
                         </div>
                       </CardContent>
                     </CardHeader>
