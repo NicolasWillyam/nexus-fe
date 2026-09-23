@@ -1,58 +1,29 @@
-import React, { useEffect, useState } from 'react';
-
-interface SummaryData {
-  stocks: number;
-  tradingDays: number;
-  latestData: string;
-  status: string;
-}
+import React from 'react';
 
 export default function DataSummary() {
-  const [data, setData] = useState<SummaryData>({
-    stocks: 20,
-    tradingDays: 250,
-    latestData: '06/09/2026',
-    status: 'Healthy',
-  });
-
-  useEffect(() => {
-    fetch('http://localhost:8000/api/v1/summary')
-      .then((res) => res.json())
-      .then((resData) => {
-        if (resData) setData(resData);
-      })
-      .catch((err) => console.log('Using default mock data', err));
-  }, []);
-
   return (
-    <div className="max-w-sm rounded-2xl bg-gray-100 p-6 shadow-md dark:bg-zinc-900 text-gray-800 dark:text-gray-200">
-      <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-        None
+    <div style={{ padding: '24px', fontFamily: 'monospace', background: '#f8f9fa', borderRadius: '8px', maxWidth: '400px', border: '1px solid #e9ecef', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+      <div style={{ color: '#6c757d', marginBottom: '8px', fontSize: '14px' }}>None</div>
+      <h3 style={{ margin: '0 0 20px 0', color: '#212529', fontSize: '18px', fontWeight: 'bold' }}>Nexus Data</h3>
+      
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ color: '#6c757d', fontSize: '14px', marginBottom: '4px' }}>Stocks</div>
+        <div style={{ color: '#212529', fontSize: '16px', fontWeight: 'bold' }}>20</div>
       </div>
-      <div className="text-xl font-bold tracking-tight mb-6">Nexus Data</div>
-
-      <div className="space-y-4">
-        <div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Stocks</div>
-          <div className="text-lg font-semibold">{data.stocks}</div>
-        </div>
-
-        <div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Trading Days</div>
-          <div className="text-lg font-semibold">{data.tradingDays}</div>
-        </div>
-
-        <div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Latest Data</div>
-          <div className="text-lg font-semibold">{data.latestData}</div>
-        </div>
-
-        <div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Status</div>
-          <div className="text-lg font-semibold text-green-600 dark:text-green-400">
-            {data.status}
-          </div>
-        </div>
+      
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ color: '#6c757d', fontSize: '14px', marginBottom: '4px' }}>Trading Days</div>
+        <div style={{ color: '#212529', fontSize: '16px', fontWeight: 'bold' }}>250</div>
+      </div>
+      
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ color: '#6c757d', fontSize: '14px', marginBottom: '4px' }}>Latest Data</div>
+        <div style={{ color: '#212529', fontSize: '16px', fontWeight: 'bold' }}>06/09/2026</div>
+      </div>
+      
+      <div style={{ marginBottom: '8px' }}>
+        <div style={{ color: '#6c757d', fontSize: '14px', marginBottom: '4px' }}>Status</div>
+        <div style={{ color: '#212529', fontSize: '16px', fontWeight: 'bold' }}>Healthy</div>
       </div>
     </div>
   );
