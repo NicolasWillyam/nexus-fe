@@ -119,8 +119,6 @@ Các file đã thay đổi:
 
 # 10. Screenshot
 
-# 10. Screenshot
-
 ![Portfolio Data Check](./public/portfolio-data-check.png)
 ---
  
@@ -152,7 +150,7 @@ feature/NEXUS-DATA-003-portfolio-data-check
 
 Commit:
 
-feat: add portfolio data check
+9e4b0ce docs: add portfolio data check documentation
 
 Merge Request:
 
