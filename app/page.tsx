@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import DataSummary from "@/components/DataSummary";
 import {
   Table,
   TableBody,
@@ -252,6 +253,9 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* 📌 TASK SV04: DATA SUMMARY CARD */}
+      <DataSummary />
 
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
