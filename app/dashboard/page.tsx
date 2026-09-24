@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { StockFilter } from "@/components/StockFilter";
 import { apiClient } from "@/lib/api";
 import {
   Table,
@@ -58,12 +59,19 @@ interface Health {
 export default function Page() {
   const [stocks, setStocks] = useState<Stock[]>([]);
 
-  const [health, setHeath] = useState<Health[]>([]);
+  const [health, setHealth] = useState<Health | null>(null);
   const [search, setSearch] = useState("");
+  const [selectedSector, setSelectedSector] = useState<string>("all");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
   );
   const [loading, setLoading] = useState(true);
+
+  const dynamicSectors = useMemo(() => {
+    return Array.from(
+      new Set(stocks.map((s) => s.industry).filter(Boolean))
+    ).sort();
+  }, [stocks]);
 
   const fetchStocks = async () => {
     setLoading(true);
@@ -82,7 +90,7 @@ export default function Page() {
     try {
       const reponse = await apiClient.get("data-pipeline/data-pipeline/health");
       console.log(reponse.data);
-      setHeath(reponse.data);
+      setHealth(reponse.data);
     } catch (error) {
       // Show message modal
       console.error("Lỗi khi tải api:", error);
@@ -142,12 +150,18 @@ export default function Page() {
         s.symbol.toLowerCase().includes(search.toLowerCase()) ||
         s.company_name.toLowerCase().includes(search.toLowerCase());
 
+      const matchesSector =
+        selectedSector === "all" ||
+        (s.industry &&
+          s.industry.trim().toLowerCase() === selectedSector.trim().toLowerCase());
+
       if (filterType === "gainers")
-        return matchesSearch && s.change_percent > 0;
-      if (filterType === "losers") return matchesSearch && s.change_percent < 0;
-      return matchesSearch;
+        return matchesSearch && matchesSector && s.change_percent > 0;
+      if (filterType === "losers")
+        return matchesSearch && matchesSector && s.change_percent < 0;
+      return matchesSearch && matchesSector;
     });
-  }, [stocks, search, filterType]);
+  }, [stocks, search, filterType, selectedSector]);
 
   return (
     <SidebarProvider
@@ -191,7 +205,7 @@ export default function Page() {
                   <Card className="rounded-md">
                     <CardHeader className="w-full">
                       <CardContent className="px-0">
-                        {health.status === "healthy" ? (
+                        {health?.status === "healthy" ? (
                           <div className="flex items-center gap-1">
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
                             {health.total_records}
@@ -199,13 +213,13 @@ export default function Page() {
                         ) : (
                           <div className="flex items-center gap-1">
                             <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            Error
+                            {health ? "Error" : "Chưa đồng bộ"}
                           </div>
                         )}
 
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />{" "}
-                          {health.latest_price_date}
+                          {health?.latest_price_date || "N/A"}
                         </div>
                       </CardContent>
                     </CardHeader>
@@ -330,7 +344,7 @@ export default function Page() {
                       </CardDescription>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                    <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 w-full lg:w-auto">
                       <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-medium">
                         <button
                           onClick={() => setFilterType("all")}
@@ -364,6 +378,12 @@ export default function Page() {
                         </button>
                       </div>
 
+                      <StockFilter
+                        selectedSector={selectedSector}
+                        onSectorChange={setSelectedSector}
+                        availableSectors={dynamicSectors}
+                      />
+
                       <div className="relative w-full sm:w-64">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -391,6 +411,9 @@ export default function Page() {
                           <TableHead className="font-bold">
                             Sàn Giao Dịch
                           </TableHead>
+                          <TableHead className="font-bold">
+                            Nhóm Ngành
+                          </TableHead>
                           <TableHead className="text-right font-bold">
                             Giá Hiện Tại
                           </TableHead>
@@ -406,7 +429,7 @@ export default function Page() {
                         {filteredStocks.length === 0 ? (
                           <TableRow>
                             <TableCell
-                              colSpan={6}
+                              colSpan={7}
                               className="text-center py-12 text-muted-foreground"
                             >
                               {loading
@@ -436,6 +459,14 @@ export default function Page() {
                                     className="font-normal text-xs"
                                   >
                                     {stock.market || "N/A"}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  <Badge
+                                    variant="outline"
+                                    className="font-normal text-xs bg-slate-50 dark:bg-slate-900"
+                                  >
+                                    {stock.industry || "N/A"}
                                   </Badge>
                                 </TableCell>
                                 <TableCell className="text-right font-bold text-slate-900 dark:text-white">
