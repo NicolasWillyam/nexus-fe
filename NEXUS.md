@@ -37,19 +37,18 @@ Ví dụ (dữ liệu thật từ API):
 
 AAPL
 Overall Score: 43 / 100
-Quality: [điền]
+Quality: 7272
 Momentum: 16
 Value: 81
 Risk: 61
 
 MSFT
 Overall Score: 57 / 100
-Quality: [điền]
+Quality: 48
 Momentum: 95
 Value: 45
 Risk: 33
 
-(Value dùng cùng công thức với "Hiệu Suất" ở bản cũ nên số giữ nguyên. Bạn nhìn lại thẻ trên trang để xác nhận.)
 
 7. Cách tôi thực hiện
 
@@ -75,7 +74,7 @@ app/page.tsx — thêm import, gắn <StockScoreCard symbol="AAPL" /> vào dashb
 
 STT	Test case	Expected	Actual	Result
 1	Nhập AAPL	Hiển thị Score Card với điểm số	Hiện đúng: 43/100, Quality 72, Momentum 16, Value 81, Risk 61	PASS
-2	Nhập MSFT	Hiển thị Score Card với điểm số	Hiện đúng: 57/100, Quality , Momentum 95, Value 45, Risk 33	PASS
+2	Nhập MSFT	Hiển thị Score Card với điểm số	Hiện đúng: 57/100, Quality 48, Momentum 95, Value 45, Risk 33	PASS
 3	Nhập mã không tồn tại (ABCD)	Hiển thị thông báo lỗi/không tìm thấy, không crash	API trả lỗi cho mã không hợp lệ, code chạy vào nhánh catch, hiện "Failed to load score data. Please try again." — không crash	PASS
 4	Tắt backend (dừng uvicorn)	Hiển thị thông báo lỗi, không crash	Hiện đúng thông báo lỗi, không crash trang	PASS
 
