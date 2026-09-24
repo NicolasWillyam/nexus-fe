@@ -32,7 +32,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
 } from "lucide-react";
-
+import Link from "next/link";
 interface Stock {
   id: number;
   symbol: string;
@@ -128,25 +128,34 @@ export default function OverviewDashboard() {
     <div className="container mx-auto p-6 space-y-8 min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* 🟢 HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-5">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            Thị Trường Cổ Phiếu Mỹ
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Tổng quan dữ liệu Realtime & Biến động Top 100 Mã Cổ Phiếu Hàng Đầu
-          </p>
-        </div>
-        <Button
-          onClick={fetchStocks}
-          disabled={loading}
-          variant="outline"
-          size="sm"
-          className="gap-2 shadow-sm"
-        >
-          <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-          Làm mới dữ liệu
-        </Button>
-      </div>
+  <div>
+    <h1 className="text-3xl font-extrabold tracking-tight">
+      Thị Trường Cổ Phiếu Mỹ
+    </h1>
+    <p className="text-sm text-muted-foreground mt-1">
+      Tổng quan dữ liệu Realtime & Biến động Top 100 Mã Cổ Phiếu Hàng Đầu
+    </p>
+  </div>
+
+  <div className="flex items-center gap-2">
+    <Link href="/portfolio-data-check">
+      <Button variant="outline" size="sm">
+        Portfolio Data Check
+      </Button>
+    </Link>
+
+    <Button
+      onClick={fetchStocks}
+      disabled={loading}
+      variant="outline"
+      size="sm"
+      className="gap-2 shadow-sm"
+    >
+      <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+      Làm mới dữ liệu
+    </Button>
+  </div>
+</div>
 
       {/* 📊 KHỐI 1: KPI CARDS (THỐNG KÊ TỔNG QUAN) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
