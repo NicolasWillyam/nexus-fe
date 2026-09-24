@@ -32,6 +32,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
 } from "lucide-react";
+import { AIExplanationSections } from "@/components/AIExplanationSections";
 
 interface Stock {
   id: number;
@@ -253,6 +254,9 @@ export default function OverviewDashboard() {
         </Card>
       </div>
 
+      {/* 🤖 KHỐI BỔ SUNG: AI EXPLANATION UI (TASK SV15) */}
+      <AIExplanationSections />
+
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
@@ -381,15 +385,15 @@ export default function OverviewDashboard() {
                             isZero
                               ? "text-slate-500"
                               : isPositive
-                                ? "text-emerald-600"
-                                : "text-rose-600"
+                              ? "text-emerald-600"
+                              : "text-rose-600"
                           }`}
                         >
                           {isZero
                             ? "0.00"
                             : isPositive
-                              ? `+${stock.change_amount?.toFixed(2)}`
-                              : stock.change_amount?.toFixed(2)}
+                            ? `+${stock.change_amount?.toFixed(2)}`
+                            : stock.change_amount?.toFixed(2)}
                         </TableCell>
                         <TableCell className="text-right">
                           <Badge
@@ -397,8 +401,8 @@ export default function OverviewDashboard() {
                               isZero
                                 ? "bg-slate-100 text-slate-700 hover:bg-slate-100"
                                 : isPositive
-                                  ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 hover:bg-emerald-100"
-                                  : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 hover:bg-rose-100"
+                                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 hover:bg-emerald-100"
+                                : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 hover:bg-rose-100"
                             }`}
                           >
                             {isZero ? (
@@ -411,8 +415,8 @@ export default function OverviewDashboard() {
                             {isZero
                               ? "0.00%"
                               : isPositive
-                                ? `+${stock.change_percent?.toFixed(2)}%`
-                                : `${stock.change_percent?.toFixed(2)}%`}
+                              ? `+${stock.change_percent?.toFixed(2)}%`
+                              : `${stock.change_percent?.toFixed(2)}%`}
                           </Badge>
                         </TableCell>
                       </TableRow>

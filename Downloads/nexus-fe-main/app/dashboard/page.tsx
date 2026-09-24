@@ -37,6 +37,7 @@ import {
   ArrowUpRight,
   Clock,
 } from "lucide-react";
+import { AIExplanationSections } from "@/components/AIExplanationSections";
 
 interface Stock {
   id: number;
@@ -57,8 +58,7 @@ interface Health {
 
 export default function Page() {
   const [stocks, setStocks] = useState<Stock[]>([]);
-
-  const [health, setHeath] = useState<Health[]>([]);
+  const [health, setHeath] = useState<Health | null>(null);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
@@ -80,12 +80,10 @@ export default function Page() {
   const getHealth = async () => {
     setLoading(true);
     try {
-      const reponse = await apiClient.get("data-pipeline/data-pipeline/health");
-      console.log(reponse.data);
-      setHeath(reponse.data);
+      const response = await apiClient.get("data-pipeline/data-pipeline/health");
+      setHeath(response.data);
     } catch (error) {
-      // Show message modal
-      console.error("Lỗi khi tải api:", error);
+      console.error("Lỗi khi tải api health:", error);
     } finally {
       setLoading(false);
     }
@@ -188,28 +186,29 @@ export default function Page() {
                     />
                     Làm mới dữ liệu
                   </Button>
-                  <Card className="rounded-md">
-                    <CardHeader className="w-full">
-                      <CardContent className="px-0">
-                        {health.status === "healthy" ? (
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            {health.total_records}
+                  {health && (
+                    <Card className="rounded-md">
+                      <CardHeader className="w-full py-2">
+                        <CardContent className="px-0 py-0 flex items-center justify-between gap-4">
+                          {health.status === "healthy" ? (
+                            <div className="flex items-center gap-1.5 text-xs">
+                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                              <span>{health.total_records} bản ghi</span>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1.5 text-xs text-rose-500">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span>Error</span>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="w-3.5 h-3.5" />
+                            <span>{health.latest_price_date}</span>
                           </div>
-                        ) : (
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            Error
-                          </div>
-                        )}
-
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />{" "}
-                          {health.latest_price_date}
-                        </div>
-                      </CardContent>
-                    </CardHeader>
-                  </Card>
+                        </CardContent>
+                      </CardHeader>
+                    </Card>
+                  )}
                 </div>
               </div>
 
@@ -314,10 +313,13 @@ export default function Page() {
                 </Card>
               </div>
 
-              {/* BẢO LƯU CHART TỪ CODE CŨ */}
+              {/* BIỂU ĐỒ TƯƠNG TÁC */}
               <ChartAreaInteractive />
 
-              {/* BẢNG DỮ LIỆU BẢN MỚI */}
+              {/* 🤖 KHỐI AI EXPLANATION UI (TASK SV15) ĐÃ TÍCH HỢP */}
+              <AIExplanationSections />
+
+              {/* 📋 BẢNG DỮ LIỆU CHỨNG KHOÁN (TASK SV08) */}
               <Card className="shadow-sm">
                 <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -446,15 +448,15 @@ export default function Page() {
                                     isZero
                                       ? "text-slate-500"
                                       : isPositive
-                                        ? "text-emerald-600"
-                                        : "text-rose-600"
+                                      ? "text-emerald-600"
+                                      : "text-rose-600"
                                   }`}
                                 >
                                   {isZero
                                     ? "0.00"
                                     : isPositive
-                                      ? `+${stock.change_amount?.toFixed(2)}`
-                                      : stock.change_amount?.toFixed(2)}
+                                    ? `+${stock.change_amount?.toFixed(2)}`
+                                    : stock.change_amount?.toFixed(2)}
                                 </TableCell>
                                 <TableCell className="text-right">
                                   <Badge
@@ -462,8 +464,8 @@ export default function Page() {
                                       isZero
                                         ? "bg-slate-100 text-slate-700 hover:bg-slate-100"
                                         : isPositive
-                                          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 hover:bg-emerald-100"
-                                          : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 hover:bg-rose-100"
+                                        ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 hover:bg-emerald-100"
+                                        : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 hover:bg-rose-100"
                                     }`}
                                   >
                                     {isZero ? (
@@ -476,8 +478,8 @@ export default function Page() {
                                     {isZero
                                       ? "0.00%"
                                       : isPositive
-                                        ? `+${stock.change_percent?.toFixed(2)}%`
-                                        : `${stock.change_percent?.toFixed(2)}%`}
+                                      ? `+${stock.change_percent?.toFixed(2)}%`
+                                      : `${stock.change_percent?.toFixed(2)}%`}
                                   </Badge>
                                 </TableCell>
                               </TableRow>
