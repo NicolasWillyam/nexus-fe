@@ -32,6 +32,7 @@ export function NavMain({
               <CirclePlusIcon />
               <span>Quick Create</span>
             </SidebarMenuButton>
+
             <Button
               size="icon"
               className="size-8 group-data-[collapsible=icon]:opacity-0"
@@ -42,16 +43,20 @@ export function NavMain({
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
+
         <SidebarMenu>
           {items.map((item) => (
-            <Link href={item.url}>
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </Link>
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                tooltip={item.title}
+                render={
+                  <Link href={item.url}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
+                }
+              />
+            </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarGroupContent>

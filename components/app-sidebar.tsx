@@ -42,7 +42,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: <LayoutDashboardIcon />,
     },
     {
@@ -146,6 +146,11 @@ const data = {
       name: "Word Assistant",
       url: "#",
       icon: <FileIcon />,
+    },
+    {
+    name: "Preview",
+    url: "/preview",
+    icon: <FileChartColumnIcon />,
     },
   ],
 };
