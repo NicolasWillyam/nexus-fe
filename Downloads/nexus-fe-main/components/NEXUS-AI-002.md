@@ -117,4 +117,4 @@ Commit:
 
 feat: AI explanation vào API portfolio
 
-Merge Request:https://github.com/NicolasWillyam/nexus-fe/compare/main...feature/NEXUS-AI-002
+Merge Request:https://github.com/NicolasWillyam/nexus-fe/pull/23
