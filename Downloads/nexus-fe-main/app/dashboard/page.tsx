@@ -313,13 +313,11 @@ export default function Page() {
                 </Card>
               </div>
 
-              {/* BIỂU ĐỒ TƯƠNG TÁC */}
               <ChartAreaInteractive />
 
-              {/* 🤖 KHỐI AI EXPLANATION UI (TASK SV15) ĐÃ TÍCH HỢP */}
               <AIExplanationSections />
 
-              {/* 📋 BẢNG DỮ LIỆU CHỨNG KHOÁN (TASK SV08) */}
+              {/* 📋 BẢNG DỮ LIỆU CHỨNG KHOÁN  */}
               <Card className="shadow-sm">
                 <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
