@@ -35,7 +35,10 @@ import {
   Flame,
   ArrowDownRight,
   ArrowUpRight,
+<<<<<<< HEAD
+=======
   Clock,
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
 } from "lucide-react";
 
 interface Stock {
@@ -49,6 +52,10 @@ interface Stock {
   change_percent: number;
 }
 
+<<<<<<< HEAD
+export default function Page() {
+  const [stocks, setStocks] = useState<Stock[]>([]);
+=======
 interface Health {
   status: string;
   latest_price_date: string;
@@ -59,6 +66,7 @@ export default function Page() {
   const [stocks, setStocks] = useState<Stock[]>([]);
 
   const [health, setHeath] = useState<Health[]>([]);
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
@@ -77,6 +85,8 @@ export default function Page() {
     }
   };
 
+<<<<<<< HEAD
+=======
   const getHealth = async () => {
     setLoading(true);
     try {
@@ -91,6 +101,7 @@ export default function Page() {
     }
   };
 
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
   useEffect(() => {
     fetchStocks();
     const interval = setInterval(fetchStocks, 30000);
@@ -175,6 +186,20 @@ export default function Page() {
                     Hàng Đầu
                   </p>
                 </div>
+<<<<<<< HEAD
+                <Button
+                  onClick={fetchStocks}
+                  disabled={loading}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 shadow-sm"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+                  />
+                  Làm mới dữ liệu
+                </Button>
+=======
                 <div className="flex flex-col gap-2">
                   <Button
                     onClick={getHealth}
@@ -211,6 +236,7 @@ export default function Page() {
                     </CardHeader>
                   </Card>
                 </div>
+>>>>>>> 3942c81768bca2b267bfd84510edf9bad2afe405
               </div>
 
               {/* KHỐI KPI CARDS */}

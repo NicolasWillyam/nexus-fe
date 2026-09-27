@@ -32,7 +32,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
 } from "lucide-react";
-
+import StockScoreCard from "@/components/StockScoreCard";
 interface Stock {
   id: number;
   symbol: string;
@@ -252,7 +252,10 @@ export default function OverviewDashboard() {
           </CardContent>
         </Card>
       </div>
-
+      {/* 🏆 STOCK SCORE CARD */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StockScoreCard symbol="AAPL" />
+      </div>
       {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
