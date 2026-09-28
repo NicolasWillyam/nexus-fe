@@ -6,6 +6,7 @@ import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { apiClient } from "@/lib/api";
+import { StockRanking } from "@/components/StockRanking";
 import {
   Table,
   TableBody,
@@ -316,6 +317,9 @@ export default function Page() {
 
               {/* BẢO LƯU CHART TỪ CODE CŨ */}
               <ChartAreaInteractive />
+
+              {/* 🏆 KHỐI: STOCK RANKING */}
+              <StockRanking />
 
               {/* BẢNG DỮ LIỆU BẢN MỚI */}
               <Card className="shadow-sm">

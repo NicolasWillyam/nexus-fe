@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { apiClient } from "@/lib/api";
+import { StockRanking } from "@/components/StockRanking";
 import {
   Table,
   TableBody,
@@ -253,7 +254,10 @@ export default function OverviewDashboard() {
         </Card>
       </div>
 
-      {/* 📋 KHỐI 2: MAIN TABLE & FILTERS */}
+      {/* 🏆 KHỐI 2: STOCK RANKING */}
+      <StockRanking />
+
+      {/* 📋 KHỐI 3: MAIN TABLE & FILTERS */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
