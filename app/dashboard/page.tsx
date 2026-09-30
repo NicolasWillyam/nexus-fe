@@ -58,7 +58,7 @@ interface Health {
 export default function Page() {
   const [stocks, setStocks] = useState<Stock[]>([]);
 
-  const [health, setHeath] = useState<Health[]>([]);
+  const [health, setHeath] = useState<Health | null>(null);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"all" | "gainers" | "losers">(
     "all",
@@ -191,22 +191,30 @@ export default function Page() {
                   <Card className="rounded-md">
                     <CardHeader className="w-full">
                       <CardContent className="px-0">
-                        {health.status === "healthy" ? (
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            {health.total_records}
-                          </div>
+                        {health ? (
+                          <>
+                            {health.status === "healthy" ? (
+                              <div className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                                {health.total_records}
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                                Error
+                              </div>
+                            )}
+
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4" />{" "}
+                              {health.latest_price_date}
+                            </div>
+                          </>
                         ) : (
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            Error
+                          <div className="text-xs text-muted-foreground">
+                            Chưa có dữ liệu
                           </div>
                         )}
-
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />{" "}
-                          {health.latest_price_date}
-                        </div>
                       </CardContent>
                     </CardHeader>
                   </Card>
